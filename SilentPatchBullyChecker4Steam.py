@@ -34,4 +34,4 @@ for file in filelist:
 else:
     print("SilentPatchBully is installed in the correct directory")
 
-input("\n You may now close this program.")
+input("\nYou may now close this program.")
