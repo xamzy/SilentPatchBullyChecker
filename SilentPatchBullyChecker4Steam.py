@@ -2,10 +2,13 @@
 import os
 from os.path import exists
 import winreg
-#import requests
-#piimport shutil
+#import wget
+import requests
+import re
+import shutil
 import time
 import itertools
+from zipfile import ZipFile
 
 
 #locates Bully install directory from registry and stores it in key
@@ -23,22 +26,30 @@ filelist = ["Bully.exe",
             "dinput8.dll",
             "MiniDumper.asi",
             "modupdater.asi",
-            "modupdater.ini",
             "SilentPatchBully.asi",
             "SilentPatchBully.ini"]
 
-#for the files in the list, check if the source code is there, if so - bail, then/or check if a file is missing, if so - print incorrect.
+#for the files in the list, check if the source code was incorrectly added or if a file is missing
 for file in filelist:
-    if exists("SilentPatchBully.cpp") or exists("README.md"):
-        print(f"You have downloaded the source code. \nPlease download SilentPatchBully.zip from the releases tab instead.")
-        #print(f"\nThis can be done for you automatically. Would you like to download the source code?")
-        #input(f"\nPress Any Key to start installing SilentPatchBully")
-        #r = requests.get(url)
+    if exists("SilentPatchBully.cpp") or exists("README.md") or not os.path.exists(file):
+        print(f"You have not installed SilentPatchBully correctly.")
+        print(f"\nThis can be done for you automatically. Would you like to download it now?")
+        input(f"\nPress Any Key to start installing SilentPatchBully")
 
+        #if that was the case, get request the patch, open with write perms
+        r = requests.get(url, allow_redirects=True)
+        open('SilentPatchBully.zip', 'wb').write(r.content)
+        if url.find('/'):
+            print(url.rsplit('/',1)[1])
+                    #cur_directory = os.getcwd()
+                    #shutil.move(cur_directory, key)
+            #take the zip file, extract it to the bully directory and complete.
+            with ZipFile('SilentPatchBully.zip', 'r') as zip:
+                print(f"\nInstalling...")
+                zip.extractall()
+                print(f"Install Complete! SilentPatchBully is now installed!")
         break
-    elif not os.path.exists(file):
-        notinstalled = print(f"SilentPatchBully is NOT installed correctly. Place all files in the main Bully Directory.\nYou can find the correct location here: {key[0]}")
-        break
+
 #else if all files exist, print true that SPBully is installed correctly
 else:
     print("SilentPatchBully is installed in the correct directory")
