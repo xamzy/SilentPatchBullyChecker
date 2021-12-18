@@ -1,5 +1,4 @@
-#imports exists for current method, winreg for new unfinished method, and time for another unused method
-import os
+#imports required modules and a couple others that i didn't end up using
 from os.path import exists
 import winreg
 #import wget
@@ -18,7 +17,7 @@ key = winreg.QueryValueEx(locate, r"InstallLocation")
 #changes directory to stored location in key
 os.chdir(key[0])
 
-#sets url var for github (unused in this ver)
+#sets url var for github
 url = "https://github.com/CookiePLMonster/SilentPatchBully/releases/download/BUILD-3-TEST/SilentPatchBully.zip"
 
 #list of all the files it checks for
