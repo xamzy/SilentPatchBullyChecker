@@ -1,5 +1,6 @@
 #imports required modules and a couple others that i didn't end up using
 from os.path import exists
+import os
 import winreg
 #import wget
 import requests
